@@ -12,7 +12,7 @@ function loadNextSound(i) {
   let s = loadSound(pathPrefix + sounds[keys[i]], function() {
     soundObjects.push(s); 
     console.log('Sound Loaded: ' + i); 
-    if (i < numFiles-1) {
+    if (i < 48) {
       i = i + 1; 
       loadNextSound(i); 
     }
