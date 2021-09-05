@@ -1,55 +1,67 @@
 // browser-sync start --server -f -w
 let soundObjects = []; 
 let pathPrefix = 'Audio/';
+let keys;
+let numFiles; 
 function preload() {
-  let keys = Object.keys(sounds); 
-  let numFiles = keys.length;
-  for (let i = 0; i < 20; i++) {
-    let s = loadSound(pathPrefix + sounds[keys[i]]);
-    soundObjects.push(s); 
-  }
-
-  console.log(soundObjects.length);
-
-  // All sounds files loaded. 
-  // Create two buttons for each file. (Play and Stop)
-  // And then deploy it to iOS
+  keys = Object.keys(sounds); 
+  numFiles = keys.length; 
 }
 
+function loadNextSound(i) {
+  let s = loadSound(pathPrefix + sounds[keys[i]], function() {
+    soundObjects.push(s); 
+    console.log('Sound Loaded: ' + i); 
+    if (i < numFiles-1) {
+      i = i + 1; 
+      loadNextSound(i); 
+    }
+  }); 
+}
+
+// for (let i = 0; i < 20; i++) {
+//   let s = loadSound(pathPrefix + sounds[keys[i]], function() {
+//     onSoundLoaded(); 
+//   });
+//   soundObjects.push(s); 
+// }
+// Button to load more. 
+// let load = createButton('Load');
+// load.position(5, 0); 
+// load.mousePressed(function() {
+//   for (let i = 20; i < 40; i++) {
+//     let s = loadSound(pathPrefix + sounds[keys[i]]);
+//     soundObjects.push(s); 
+//   }
+//   console.log(soundObjects.length);
+// });
+
+// let newLoad = createButton('NewLoad');
+// newLoad.position(80, 0); 
+// newLoad.mousePressed(function() {
+//   for (let i = 40; i < 60; i++) {
+//     let s = loadSound(pathPrefix + sounds[keys[i]]);
+//     soundObjects.push(s); 
+//   }
+//   console.log(soundObjects.length);
+// });
+
+// let finalLoad = createButton('Final Load');
+// finalLoad.position(160, 0); 
+// finalLoad.mousePressed(function() {
+//   for (let i = 60; i < 71; i++) {
+//     let s = loadSound(pathPrefix + sounds[keys[i]]);
+//     soundObjects.push(s); 
+//   }
+//   console.log(soundObjects.length);
+// });
+
+function onSoundLoaded() {
+  console.log('Hello');
+}
 
 function setup() {
-  // Button to load more. 
-  let load = createButton('Load');
-  load.position(5, 0); 
-  load.mousePressed(function() {
-    for (let i = 20; i < 40; i++) {
-      let s = loadSound(pathPrefix + sounds[keys[i]]);
-      soundObjects.push(s); 
-    }
-    console.log(soundObjects.length);
-  });
-  
-  let newLoad = createButton('NewLoad');
-  newLoad.position(80, 0); 
-  newLoad.mousePressed(function() {
-    for (let i = 40; i < 60; i++) {
-      let s = loadSound(pathPrefix + sounds[keys[i]]);
-      soundObjects.push(s); 
-    }
-    console.log(soundObjects.length);
-  });
-
-  let finalLoad = createButton('Final Load');
-  finalLoad.position(160, 0); 
-  finalLoad.mousePressed(function() {
-    for (let i = 60; i < 71; i++) {
-      let s = loadSound(pathPrefix + sounds[keys[i]]);
-      soundObjects.push(s); 
-    }
-    console.log(soundObjects.length);
-  });
-
-
+  loadNextSound(0);
   let keys = Object.keys(sounds);
   let numFiles = keys.length; 
   for (let i = 1; i < numFiles; i++) {
