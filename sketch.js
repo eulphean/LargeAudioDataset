@@ -1,14 +1,15 @@
 // browser-sync start --server -f -w
 let soundObjects = []; 
-
+let pathPrefix = 'Audio/';
 function preload() {
-  let pathPrefix = 'Audio/';
   let keys = Object.keys(sounds); 
   let numFiles = keys.length;
-  for (let i = 0; i < numFiles; i++) {
+  for (let i = 0; i < 20; i++) {
     let s = loadSound(pathPrefix + sounds[keys[i]]);
     soundObjects.push(s); 
   }
+
+  console.log(soundObjects.length);
 
   // All sounds files loaded. 
   // Create two buttons for each file. (Play and Stop)
@@ -17,9 +18,41 @@ function preload() {
 
 
 function setup() {
+  // Button to load more. 
+  let load = createButton('Load');
+  load.position(5, 0); 
+  load.mousePressed(function() {
+    for (let i = 20; i < 40; i++) {
+      let s = loadSound(pathPrefix + sounds[keys[i]]);
+      soundObjects.push(s); 
+    }
+    console.log(soundObjects.length);
+  });
+  
+  let newLoad = createButton('NewLoad');
+  newLoad.position(80, 0); 
+  newLoad.mousePressed(function() {
+    for (let i = 40; i < 60; i++) {
+      let s = loadSound(pathPrefix + sounds[keys[i]]);
+      soundObjects.push(s); 
+    }
+    console.log(soundObjects.length);
+  });
+
+  let finalLoad = createButton('Final Load');
+  finalLoad.position(160, 0); 
+  finalLoad.mousePressed(function() {
+    for (let i = 60; i < 71; i++) {
+      let s = loadSound(pathPrefix + sounds[keys[i]]);
+      soundObjects.push(s); 
+    }
+    console.log(soundObjects.length);
+  });
+
+
   let keys = Object.keys(sounds);
   let numFiles = keys.length; 
-  for (let i = 0; i < numFiles; i++) {
+  for (let i = 1; i < numFiles; i++) {
     let play = createButton('Play' + i);
     play.position(5, 25 * i);  
     play.mousePressed(function() {
@@ -48,21 +81,3 @@ function stopFunc(i) {
 function draw() {
   // put drawing code here
 }
-
-// function playA() {
-//   soundA.pan(-1);
-//   soundA.play();
-// }
-
-// function playB() {
-//   soundB.play();
-// }
-
-// function stopA() {
-//   soundB.pan(1);
-//   soundA.stop();
-// }
-
-// function stopB() {
-//   soundB.stop();
-// }
